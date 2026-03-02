@@ -1,0 +1,139 @@
+.manage-employee-container {
+  padding: 2rem;
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  font-family: 'Segoe UI', sans-serif;
+  color: #f8fafc;
+  animation: fadeIn 0.7s;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #60a5fa;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .actions {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .add-btn {
+      background-color: #22c55e;
+      color: #ffffff;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        background-color: #16a34a;
+        transform: scale(1.05);
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.18);
+      }
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    input {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      width: 240px;
+      font-size: 1rem;
+      background-color: #0f172a;
+      color: #f8fafc;
+      transition: border 0.2s, box-shadow 0.2s;
+
+      &::placeholder {
+        color: #94a3b8;
+      }
+
+      &:focus {
+        border-color: #3b82f6;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #1e293b;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.8s;
+
+    th {
+      background-color: #3b82f6;
+      color: #f8fafc;
+      padding: 1rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #334155;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+    }
+
+    tr {
+      transition: background 0.2s, transform 0.2s;
+      animation: rowFadeIn 0.7s;
+      &:hover {
+        background-color: #334155;
+        transform: scale(1.01);
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+// Responsive tweaks
+@media (max-width: 700px) {
+  .manage-employee-container {
+    padding: 1rem;
+    .actions {
+      flex-direction: column;
+      align-items: stretch;
+      input {
+        width: 100%;
+      }
+    }
+    table {
+      font-size: 0.92rem;
+      th, td {
+        padding: 0.6rem;
+      }
+    }
+  }
+} 
