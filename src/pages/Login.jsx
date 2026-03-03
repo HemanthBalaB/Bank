@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { authService } from '../services/authService';
 import { api } from '../api/client';
+import { setAuth } from '../store/authSlice';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -10,6 +12,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +28,13 @@ export default function Login() {
 
     if (isEmployee) {
       const onSuccess = (res) => {
-        if (res?.token) localStorage.setItem('employeeToken', res.token);
+        if (res?.token) {
+          const employeeUser = {
+            username,
+            role: 'EMPLOYEE',
+          };
+          dispatch(setAuth({ user: employeeUser, token: res.token, isEmployee: true }));
+        }
         setLoading(false);
         navigate('/employee/dashboard');
       };
@@ -45,7 +54,15 @@ export default function Login() {
 
     if (isAdmin) {
       authService.login(username, password)
-        .then(() => {
+        .then((res) => {
+          if (res?.token) {
+            const storedUser = {
+              accountNo: Number(res.user?.username) || 0,
+              name: res.user?.name || 'Admin',
+              role: (res.user?.role || 'ADMIN').toUpperCase(),
+            };
+            dispatch(setAuth({ user: storedUser, token: res.token, isEmployee: false }));
+          }
           setLoading(false);
           navigate('/admin/dashboard');
         })
@@ -57,7 +74,15 @@ export default function Login() {
     }
 
     authService.login(username, password)
-      .then(() => {
+      .then((res) => {
+        if (res?.token) {
+          const storedUser = {
+            accountNo: Number(res.user?.username) || 0,
+            name: res.user?.name || 'Customer',
+            role: (res.user?.role || 'USER').toUpperCase(),
+          };
+          dispatch(setAuth({ user: storedUser, token: res.token, isEmployee: false }));
+        }
         setLoading(false);
         navigate('/customer/dashboard');
       })
